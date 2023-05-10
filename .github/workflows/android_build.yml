@@ -1,25 +1,3 @@
-# name: Android Build
-
-# on: pull_request
-
-# jobs: 
-#   build:
-#     runs-on: ubuntu-latest
-    
-#     steps: 
-#       - uses: actions/checkout@v1
-      
-#       - name: Set Up JDK
-#         uses: actions/setup-java@v1
-#         with: 
-#           java-version: 17
-
-# #       - name: Run Tests
-# #         run: ./gradlew test
-        
-#       - name: Build Project
-#         run: ./gradlew assemble
-
 name: CI
 on:
   push:
@@ -95,6 +73,6 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v2
         with:
-          name: expense-manager.apk
+          name: health-digital.apk
           path: app/build/outputs/apk/debug/app-debug.apk
         
