@@ -13,6 +13,11 @@
         android:theme="@style/Theme.HealthDigital"
         tools:targetApi="31">
         <activity
+            android:name=".NewReminder"
+            android:exported="false"
+            android:label="@string/title_activity_new_reminder"
+            android:theme="@style/Theme.HealthDigital" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
