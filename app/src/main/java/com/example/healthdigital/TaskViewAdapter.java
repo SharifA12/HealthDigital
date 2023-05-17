@@ -1,17 +1,31 @@
 package com.example.healthdigital;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 
 public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHolder> {
 
-    private String[] localDataSet;
+    private List<String> localDataSet;
+    private Context context;
+    private OnItemClickListener listener;
+
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener clickListener){
+        listener = clickListener;
+    }
 
     /**
      * Provide a reference to the type of views that you are using
@@ -19,20 +33,27 @@ public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHo
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textView;
-        private final Button button;
+        private final ImageView delete;
 
-        public ViewHolder(View view) {
+        public ViewHolder(View view, OnItemClickListener listener) {
             super(view);
 
             textView = view.findViewById(R.id.item_task_list_text); //error here should be expected, this is a template
-            button = view.findViewById(R.id.button_item);
+            delete = view.findViewById(R.id.delete_id);
+
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemClick(getAdapterPosition());
+                }
+            });
         }
 
         public TextView getTextView() {
             return textView;
         }
-        public TextView getButton() {
-            return button;
+        public ImageView getButton() {
+            return delete;
         }
     }
 
@@ -42,8 +63,9 @@ public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHo
      * @param dataSet String[] containing the data to populate views to be used
      *                by RecyclerView.
      */
-    public TaskViewAdapter(String[] dataSet) {
+    public TaskViewAdapter(List<String> dataSet, Context context) {
         localDataSet = dataSet;
+        this.context = context;
     }
 
     // Create new views (invoked by the layout manager)
@@ -53,7 +75,7 @@ public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHo
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.item_task_list, viewGroup, false); //error here should be expected, this is a template
 
-        return new ViewHolder(view);
+        return new ViewHolder(view, listener);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -62,12 +84,12 @@ public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHo
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.getTextView().setText(localDataSet[position]);
+        viewHolder.getTextView().setText(localDataSet.get(position));
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return localDataSet.length;
+        return localDataSet.size();
     }
 }

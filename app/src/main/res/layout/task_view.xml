@@ -8,10 +8,12 @@
 
     <TextView
         android:id="@+id/title_text_view"
-        android:layout_width="407dp"
-        android:layout_height="88dp"
+        android:layout_width="399dp"
+        android:layout_height="49dp"
         android:layout_marginBottom="14dp"
-        android:text="TextView"
+        android:gravity="center"
+        android:text="Tasks"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintBottom_toTopOf="@+id/rvTasks"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,9 +23,10 @@
         android:id="@+id/rvTasks"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="152dp"
+        android:foregroundGravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,28 +34,31 @@
 
     <ToggleButton
         android:id="@+id/sortTime"
-        android:layout_width="0dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="ToggleButton"
+        android:textOff="Sort by Time (decending)"
+        android:textOn="Sort by Time (ascending)"
         app:layout_constraintBottom_toTopOf="@+id/SortLocation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ToggleButton
         android:id="@+id/SortLocation"
-        android:layout_width="0dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:text="ToggleButton"
+        android:textOff="Sort by Location (alphabetical)"
+        android:textOn="Sort by Location (idk)"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/SetReminder"
-        android:layout_width="0dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="Create New Task"
         app:layout_constraintBottom_toTopOf="@+id/sortTime"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
