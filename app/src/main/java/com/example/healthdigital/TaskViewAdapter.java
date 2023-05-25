@@ -15,12 +15,13 @@ import java.util.List;
 
 public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHolder> {
 
-    private List<String> localDataSet;
+    private List<ReminderEntry> localDataSet;
     private Context context;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener{
-        void onItemClick(int position);
+        void onItemClickDelete(int position);
+        void onItemClickEdit(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener clickListener){
@@ -35,16 +36,26 @@ public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHo
         private final TextView textView;
         private final ImageView delete;
 
+        private final ImageView edit;
+
         public ViewHolder(View view, OnItemClickListener listener) {
             super(view);
 
             textView = view.findViewById(R.id.item_task_list_text); //error here should be expected, this is a template
             delete = view.findViewById(R.id.delete_id);
+            edit = view.findViewById(R.id.edit_id);
+
+            edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemClickEdit(getAdapterPosition());
+                }
+            });
 
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.onItemClick(getAdapterPosition());
+                    listener.onItemClickDelete(getAdapterPosition());
                 }
             });
         }
@@ -63,7 +74,7 @@ public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHo
      * @param dataSet String[] containing the data to populate views to be used
      *                by RecyclerView.
      */
-    public TaskViewAdapter(List<String> dataSet, Context context) {
+    public TaskViewAdapter(List<ReminderEntry> dataSet, Context context) {
         localDataSet = dataSet;
         this.context = context;
     }
@@ -84,7 +95,12 @@ public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHo
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.getTextView().setText(localDataSet.get(position));
+        viewHolder.getTextView().setText(createTaskString(localDataSet.get(position)));
+    }
+
+    public String createTaskString(ReminderEntry reminderEntry){
+        // create the string based on reminderEntry
+        return reminderEntry.toString();
     }
 
     // Return the size of your dataset (invoked by the layout manager)

@@ -10,7 +10,4 @@
     <item android:title="Tasks"
         android:icon="@drawable/baseline_fact_check_24"
         android:id="@+id/tasks"/>
-    <item android:title="Reminders"
-        android:icon="@drawable/baseline_place_24"
-        android:id="@+id/reminders"/>
 </menu>

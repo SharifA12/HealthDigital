@@ -37,10 +37,7 @@ public class MainActivity extends AppCompatActivity {
                 replaceFragment(new CalendarFragment());
             }else if (item.getItemId() == R.id.home) {
                 replaceFragment(new HomeFragment());
-            }else if (item.getItemId() == R.id.reminders) {
-                replaceFragment(new ReminderFragment());
             }
-
             return true;
 
         });
@@ -54,10 +51,5 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
     }
-//
-//    public void openActivity2() {
-//        Intent intent = new Intent(this, TaskView.class);
-//        startActivity(intent);
-//    }
 
 }
