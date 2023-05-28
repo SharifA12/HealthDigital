@@ -16,6 +16,9 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -35,6 +38,8 @@ public class ReminderActivity extends AppCompatActivity {
 
     private ReminderEntry reminderEntry;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -113,7 +118,14 @@ public class ReminderActivity extends AppCompatActivity {
             }
         });
 
+        replaceFragment(new MapFragment());
 
 
+    }
+    private void replaceFragment(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout, fragment);
+        fragmentTransaction.commit();
     }
 }
