@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "241681104671",
+    "project_id": "healthdigital-c4a77",
+    "storage_bucket": "healthdigital-c4a77.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:241681104671:android:e0281b91505e4290bf7a2a",
+        "android_client_info": {
+          "package_name": "com.example.healthdigital"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABOb-UVz-hxoYq1ddNLTxefxJ0kT6tNB0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

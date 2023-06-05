@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         binding.navViewItem.setOnItemSelectedListener(item -> {
             Log.d("Entered", "OnItemSelected");
             if (item.getItemId() == R.id.tasks){
-                replaceFragment(new TaskViewFragment());
+                replaceFragment(new TaskViewFragmentEdit());
             } else if (item.getItemId() == R.id.calendar) {
                 replaceFragment(new CalendarFragment());
             }else if (item.getItemId() == R.id.home) {
@@ -41,6 +41,11 @@ public class MainActivity extends AppCompatActivity {
             return true;
 
         });
+
+        Intent intent = getIntent();
+        if (intent.hasExtra("tasks")){
+            binding.navViewItem.setSelectedItemId(R.id.tasks);
+        }
 
 
     }
