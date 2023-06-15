@@ -21,14 +21,14 @@ public class TaskViewAdapterEdit extends RecyclerView.Adapter<TaskViewAdapterEdi
 
     static ImageView edit;
 
-    private static TaskViewAdapter.OnItemClickListener listener;
+    private static TaskViewAdapterEdit.OnItemClickListener listener;
 
     public interface OnItemClickListener{
         void onItemClickDelete(int position);
         void onItemClickEdit(int position);
     }
 
-    public void setOnItemClickListener(TaskViewAdapter.OnItemClickListener clickListener){
+    public void setOnItemClickListener(TaskViewAdapterEdit.OnItemClickListener clickListener){
         listener = clickListener;
     }
     public TaskViewAdapterEdit(Context context, ArrayList<ReminderEntry> reminderEntryArrayList) {

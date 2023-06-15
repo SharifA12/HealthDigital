@@ -91,7 +91,7 @@ public class TaskViewFragmentEdit extends Fragment {
 
         EventChangeListiner(root);
 
-        adapter.setOnItemClickListener(new TaskViewAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new TaskViewAdapterEdit.OnItemClickListener() {
             @Override
             public void onItemClickDelete(int position) {
                 Log.e("s", "position: " + position);
@@ -161,48 +161,6 @@ public class TaskViewFragmentEdit extends Fragment {
             }
         });
     }
-
-
-//    ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
-//            new ActivityResultContracts.StartActivityForResult(),
-//            new ActivityResultCallback<ActivityResult>() {
-//                @Override
-//                public void onActivityResult(ActivityResult result) {
-//                    Log.d("ActivityResult", "called");
-//                    Intent data = result.getData();
-//
-//
-//                    if(result.getResultCode() == Activity.RESULT_OK){
-//                        list.add(data.getParcelableExtra("reminderEntry"));
-//                        adapter.notifyItemInserted(list.size() - 1);
-//                    }
-//
-//
-//
-//                }
-//            });
-
-//    ActivityResultLauncher<Intent> ActivityResultLauncherPosition = registerForActivityResult(
-//            new ActivityResultContracts.StartActivityForResult(),
-//            new ActivityResultCallback<ActivityResult>() {
-//                @Override
-//                public void onActivityResult(ActivityResult result) {
-//                    Log.d("ActivityResult", "called");
-//                    Intent data = result.getData();
-//
-//                    if(result.getResultCode() == Activity.RESULT_OK){
-//                        int position = data.getIntExtra("position", 0);
-//                        Log.d("position", "called" + position);
-//                        list.remove(position);
-//                        adapter.notifyItemRemoved(position);
-//                        list.add(data.getParcelableExtra("reminderEntry"));
-//                        adapter.notifyItemInserted(list.size()-1);
-//                    }
-//
-//                }
-//            });
-
-
     void SetupSorting(View root){
         ImageView sortTime = root.findViewById(R.id.sortTime);
         ImageView sortLocation = root.findViewById(R.id.SortLocation);
@@ -227,23 +185,23 @@ public class TaskViewFragmentEdit extends Fragment {
 
                 if (sortTimeA){
                     // sort by ascending;
-//                    Collections.sort(list, new Comparator<ReminderEntry>() {
-//                        @Override
-//                        public int compare(ReminderEntry t1, ReminderEntry t2) {
-//                            return t1.getDate().compareTo(t2.getDate());
-//                        }
-//                    });
+                    Collections.sort(list, new Comparator<ReminderEntry>() {
+                        @Override
+                        public int compare(ReminderEntry t1, ReminderEntry t2) {
+                            return t1.getDate().compareTo(t2.getDate());
+                        }
+                    });
 
                     adapter.notifyDataSetChanged();
 
                 }else {
 
-//                    Collections.sort(list, new Comparator<ReminderEntry>() {
-//                        @Override
-//                        public int compare(ReminderEntry t1, ReminderEntry t2) {
-//                            return t1.getDate().compareTo(t2.getDate());
-//                        }
-//                    });
+                    Collections.sort(list, new Comparator<ReminderEntry>() {
+                        @Override
+                        public int compare(ReminderEntry t1, ReminderEntry t2) {
+                            return t1.getDate().compareTo(t2.getDate());
+                        }
+                    });
                     // sort by descending;
                     Collections.reverse(list);
                     adapter.notifyDataSetChanged();

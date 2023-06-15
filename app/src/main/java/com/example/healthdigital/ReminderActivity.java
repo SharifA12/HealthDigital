@@ -4,6 +4,7 @@ import static android.content.Intent.getIntent;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +34,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 
+import java.sql.Time;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -43,6 +47,8 @@ public class ReminderActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private TextView mDisplayDate;
+
+    private TextView mDisplayTime;
 
     FirebaseFirestore db;
 
@@ -56,6 +62,8 @@ public class ReminderActivity extends AppCompatActivity {
 
     private ReminderEntry reminderEntry;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
+
+    private TimePickerDialog.OnTimeSetListener mTimeSetListener;
 
     private boolean update;
 
@@ -78,6 +86,7 @@ public class ReminderActivity extends AppCompatActivity {
         notes = (TextView) findViewById(R.id.notes);
 //
         mDisplayDate = (TextView) findViewById(R.id.selectDate);
+        mDisplayTime = (TextView) findViewById(R.id.selectTime);
 
         title.addTextChangedListener(savingTextWatcher);
         mDisplayDate.addTextChangedListener(savingTextWatcher);
@@ -98,6 +107,29 @@ public class ReminderActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+
+        mDisplayTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialog dialog = new TimePickerDialog(ReminderActivity.this, android.R.style.Theme_DeviceDefault_Dialog_Alert,
+                        mTimeSetListener,
+                        12,
+                        0,
+                        true);
+
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+                dialog.show();
+            }
+        });
+
+        mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+                String time = hour + ":" + minute;
+                mDisplayTime.setText(time);
+            }
+        };
+
         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
@@ -163,7 +195,9 @@ public class ReminderActivity extends AppCompatActivity {
                 data.put("title", title.getText().toString());
                 data.put("notes", notes.getText().toString());
                 try {
+
                     Date date = new SimpleDateFormat("MM/dd/yyyy").parse(mDisplayDate.getText().toString());
+                    // set time properly losers !!!!!!!!!!!!
                     data.put("date", new Timestamp(date));
                 } catch (ParseException e) {
                     throw new RuntimeException(e);

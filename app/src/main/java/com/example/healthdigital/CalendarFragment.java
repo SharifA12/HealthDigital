@@ -66,6 +66,15 @@ public class CalendarFragment extends Fragment {
 
         db = FirebaseFirestore.getInstance();
 
+        openButton = (Button) root.findViewById(R.id.buttonActivity);
+
+        openButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ReminderActivity.class);
+                startActivity(intent);
+            }
+        });
 
         CalendarView calendarView = root.findViewById(R.id.calendarView);
         calendarView.setDate(System.currentTimeMillis(),false,true);
