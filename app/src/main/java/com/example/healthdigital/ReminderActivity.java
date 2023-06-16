@@ -2,12 +2,19 @@ package com.example.healthdigital;
 
 import static android.content.Intent.getIntent;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Address;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,6 +24,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,6 +49,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ReminderActivity extends AppCompatActivity {
@@ -56,7 +65,7 @@ public class ReminderActivity extends AppCompatActivity {
 
     private TextView notes;
 
-    private int position;
+    public List<Address> address;
 
     private Date date;
 
@@ -79,6 +88,7 @@ public class ReminderActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_reminder);
+        createNotificationChannel();
         db = FirebaseFirestore.getInstance();
         update = false;
 
@@ -90,6 +100,7 @@ public class ReminderActivity extends AppCompatActivity {
 
         title.addTextChangedListener(savingTextWatcher);
         mDisplayDate.addTextChangedListener(savingTextWatcher);
+        mDisplayTime.addTextChangedListener(savingTextWatcher);
         mDisplayDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -197,12 +208,43 @@ public class ReminderActivity extends AppCompatActivity {
                 try {
 
                     Date date = new SimpleDateFormat("MM/dd/yyyy").parse(mDisplayDate.getText().toString());
-                    // set time properly losers !!!!!!!!!!!!
+
+                    String time = mDisplayTime.getText().toString().trim();
+                    if (!time.isEmpty()){
+
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(date);
+
+                        String[] split = time.split(":");
+
+                        calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(split[0]));
+                        calendar.set(Calendar.MINUTE, Integer.parseInt(split[1]));
+                        date = calendar.getTime();
+
+                    }
                     data.put("date", new Timestamp(date));
+
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
-                data.put("location", new GeoPoint(latLng.latitude, latLng.longitude));
+
+                String location = "" + address.get(0).getAddressLine(0);
+                data.put("location", location);
+                Log.e("Setup", "ALARM SETTING");
+
+                ////// set a new alarm;
+
+                Toast.makeText(ReminderActivity.this, "ReminderSet", Toast.LENGTH_SHORT).show();
+                Intent intent1 = new Intent(ReminderActivity.this, ReminderBroadcaster.class);
+                @SuppressLint("UnspecifiedImmutableFlag") PendingIntent pendingIntent = PendingIntent.getBroadcast(ReminderActivity.this, 0, intent1, 0);
+
+                AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+
+                Timestamp reminderTimestamp = (Timestamp) data.get("date");
+                long reminderTime = reminderTimestamp.getSeconds() * 1000;
+                alarmManager.set(AlarmManager.RTC_WAKEUP, reminderTime, pendingIntent);
+
 
                 if (update){
                     db.collection("users").document("user1").collection("tasks").document(intent.getStringExtra("name")).update(data).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -244,8 +286,9 @@ public class ReminderActivity extends AppCompatActivity {
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             String userTitle = title.getText().toString().trim();
             String userDate = mDisplayDate.getText().toString().trim();
+            String userTime = mDisplayTime.getText().toString().trim();
 
-            saveButton.setEnabled(!userTitle.isEmpty() && !userDate.isEmpty());
+            saveButton.setEnabled(!userTitle.isEmpty() && !userDate.isEmpty() && !userTime.isEmpty());
         }
 
         @Override
@@ -259,5 +302,17 @@ public class ReminderActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
 
+    }
+
+    private void createNotificationChannel(){
+
+        CharSequence name = "HealthDigitalChannel";
+        String description = "Channel for HealthDigital";
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationChannel channel = new NotificationChannel("notifyTask", name, importance);
+        channel.setDescription(description);
+
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
     }
 }

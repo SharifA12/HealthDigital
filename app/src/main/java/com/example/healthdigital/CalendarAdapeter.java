@@ -10,7 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class CalendarAdapeter extends RecyclerView.Adapter<CalendarAdapeter.MyViewHolderCalendar> {
 
@@ -48,6 +50,13 @@ public class CalendarAdapeter extends RecyclerView.Adapter<CalendarAdapeter.MyVi
         ReminderEntry reminderEntry = reminderEntryArrayList.get(position);
 
         holder.create.setText(reminderEntry.toString());
+        Date date = reminderEntry.getDate();   // given date
+        Calendar calendar = Calendar.getInstance(); // creates a new calendar instance
+        calendar.setTime(date);   // assigns calendar to given date
+        int hour  = calendar.get(Calendar.HOUR_OF_DAY); // gets hour in 24h format
+        int minutes = calendar.get(Calendar.MINUTE);
+        String timeSting = hour + ":" + minutes;
+        holder.time.setText(timeSting);
 
     }
 
@@ -60,10 +69,13 @@ public class CalendarAdapeter extends RecyclerView.Adapter<CalendarAdapeter.MyVi
 
         TextView create;
 
+        TextView time;
+
         public MyViewHolderCalendar(@NonNull View itemView) {
             super(itemView);
 
             create = itemView.findViewById(R.id.item_task_list_text);
+            time = itemView.findViewById(R.id.timeContainer);
 //            delete = itemView.findViewById(R.id.delete_id);
 //            edit = itemView.findViewById(R.id.edit_id);
 //

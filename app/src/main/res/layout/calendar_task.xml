@@ -12,11 +12,18 @@
 
 
     <TextView
+        android:id="@+id/timeContainer"
+        android:layout_width="16dp"
+        android:layout_height="35dp"
+        android:layout_weight="1"
+        android:text="TextView" />
+
+    <TextView
         android:id="@+id/item_task_list_text"
-        android:background="@drawable/gradient_box"
-        android:layout_width="284dp"
+        android:layout_width="172dp"
         android:layout_height="34dp"
         android:layout_weight="1"
+        android:background="@drawable/gradient_box"
         android:text="TextView" />
 
     <ImageView

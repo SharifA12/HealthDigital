@@ -45,6 +45,8 @@ public class CalendarFragment extends Fragment {
 
     Date selectedDateDay;
 
+    private CalendarView calendarView;
+
     private CalendarAdapeter adapter;
 
     RecyclerView todaysTasks;
@@ -76,7 +78,7 @@ public class CalendarFragment extends Fragment {
             }
         });
 
-        CalendarView calendarView = root.findViewById(R.id.calendarView);
+        calendarView = root.findViewById(R.id.calendarView);
         calendarView.setDate(System.currentTimeMillis(),false,true);
 
         selectedDate = new Date();
@@ -144,6 +146,7 @@ public class CalendarFragment extends Fragment {
                     }
 
                     adapter.notifyDataSetChanged();
+
                 }
             }
         });

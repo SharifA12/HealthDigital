@@ -1,14 +1,15 @@
 package com.example.healthdigital;
 
+import android.location.Geocoder;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -16,7 +17,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Locale;
+
 public class MapFragment extends Fragment {
+
+    Geocoder geocoder;
 
     ReminderActivity reminderActivity;
 
@@ -29,8 +36,9 @@ public class MapFragment extends Fragment {
 
         // Initialize map fragment
         SupportMapFragment supportMapFragment=(SupportMapFragment)
-                getChildFragmentManager().findFragmentById(R.id.google_map);
+                getChildFragmentManager().findFragmentById(R.id.map);
 
+        geocoder = new Geocoder(getContext(), Locale.CANADA);
 
 
         // Async map
@@ -64,6 +72,16 @@ public class MapFragment extends Fragment {
                     @Override
                     public void onMapClick(LatLng latLng) {
                         latLngFinal = latLng;
+
+                        reminderActivity.address = new ArrayList<>();
+
+                        try {
+                            reminderActivity.address = geocoder.getFromLocation(latLng.latitude, latLng.longitude,1);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        Log.e("adress", reminderActivity.address.toString());
                         // When clicked on map
                         // Initialize marker options
                         MarkerOptions markerOptions=new MarkerOptions();

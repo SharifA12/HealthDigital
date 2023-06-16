@@ -172,8 +172,24 @@ public class TaskViewFragmentEdit extends Fragment {
 
                 if (sortLocationA){
                     // sort by ascending;
+                    Collections.sort(list, new Comparator<ReminderEntry>() {
+                        @Override
+                        public int compare(ReminderEntry t1, ReminderEntry t2) {
+                            return t1.getLocation().compareTo(t2.getLocation());
+                        }
+                    });
+
+                    adapter.notifyDataSetChanged();
                 }else {
+                    Collections.sort(list, new Comparator<ReminderEntry>() {
+                        @Override
+                        public int compare(ReminderEntry t1, ReminderEntry t2) {
+                            return t1.getLocation().compareTo(t2.getLocation());
+                        }
+                    });
                     // sort by descending;
+                    Collections.reverse(list);
+                    adapter.notifyDataSetChanged();
                 }
             }
         });

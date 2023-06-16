@@ -15,19 +15,19 @@ public class ReminderEntry{
     private String title;
     private String notes;
     private Date date;
-    private GeoPoint location;
+    private String location;
 
 
     private ReminderEntry(){};
 
-    public ReminderEntry(String title,String notes, GeoPoint location, Date date){
+    public ReminderEntry(String title,String notes, String location, Date date){
         this.title = title;
         this.notes = notes;
         this.location = location;
         this.date = date;
     }
 
-    public GeoPoint getLocation() {
+    public String getLocation() {
         return location;
     }
 
@@ -47,7 +47,7 @@ public class ReminderEntry{
         this.date = date;
     }
 
-    public void setLocation(GeoPoint location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 
@@ -62,8 +62,8 @@ public class ReminderEntry{
     @NonNull
     @Override
     public String toString() {
-        if (date != null){
-            return title + " " + date;
+        if (location != null){
+            return title + " " + location;
         }
         return title + "  ";
     }
