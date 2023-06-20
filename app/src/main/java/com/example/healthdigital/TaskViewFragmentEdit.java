@@ -49,13 +49,13 @@ public class TaskViewFragmentEdit extends Fragment {
     private boolean sortLocationA;
 
     Intent intent;
-    private ArrayList<ReminderEntry> list;
+    ArrayList<ReminderEntry> list;
 
-    private Map<ReminderEntry, String> documents;
+    Map<ReminderEntry, String> documents;
 
     FirebaseFirestore db ;
 
-    private TaskViewAdapterEdit adapter;
+    TaskViewAdapterEdit adapter;
 
     RecyclerView rvTasks;
 
@@ -69,6 +69,7 @@ public class TaskViewFragmentEdit extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.task_view, container, false);
         db = FirebaseFirestore.getInstance();
+        Log.e("Entered", "Entered the task class");
 //        sortLocationA = true;
 //        sortTimeA = true;
 //        SetupSorting(root);

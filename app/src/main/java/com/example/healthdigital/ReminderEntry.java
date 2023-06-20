@@ -18,7 +18,7 @@ public class ReminderEntry{
     private String location;
 
 
-    private ReminderEntry(){};
+    ReminderEntry(){};
 
     public ReminderEntry(String title,String notes, String location, Date date){
         this.title = title;
